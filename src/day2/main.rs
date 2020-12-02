@@ -68,9 +68,7 @@ fn is_valid_password_2(assumed_password: &str) -> bool {
 
         let matching_character = provided_character.chars().next().expect("Could not fetch characters from character string");
         
-        if pw_as_char.get(first_index - 1).unwrap() == &matching_character && pw_as_char.get(second_index - 1).unwrap() == &matching_character {
-            return false;
-        } else if pw_as_char.get(first_index - 1).unwrap() == &matching_character || pw_as_char.get(second_index - 1).unwrap() == &matching_character {
+        if (pw_as_char.get(first_index - 1).unwrap() == &matching_character) != (pw_as_char.get(second_index - 1).unwrap() == &matching_character) {
             return true;
         }
     } 
