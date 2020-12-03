@@ -23,18 +23,22 @@ fn main() {
         }
     }
 
-
-    println!("Amount of valid passwords for part 1: {}", valid_passwords_1);
-    println!("Amount of valid passwords for part 2: {}", valid_passwords_2);
+    println!(
+        "Amount of valid passwords for part 1: {}",
+        valid_passwords_1
+    );
+    println!(
+        "Amount of valid passwords for part 2: {}",
+        valid_passwords_2
+    );
 }
 
 // PART 1
 fn is_valid_password(assumed_password: &str) -> bool {
     let splitted_password_pattern: Vec<&str> = assumed_password.split(" ").collect();
-    
+
     let mut counter: u32 = 0;
     for character in splitted_password_pattern.get(2).unwrap().chars() {
-
         if let Some(provided_character) = splitted_password_pattern.get(1) {
             if character == provided_character.chars().nth(0).unwrap() {
                 counter += 1;
@@ -45,10 +49,18 @@ fn is_valid_password(assumed_password: &str) -> bool {
     if let Some(limit) = splitted_password_pattern.get(0) {
         let max_min: Vec<&str> = limit.split("-").collect();
 
-        let max = max_min.get(1).expect("Could not parse max from the password").parse::<u32>().unwrap();
-        let min = max_min.get(0).expect("Could not parse min from the password").parse::<u32>().unwrap();
+        let max = max_min
+            .get(1)
+            .expect("Could not get max from the password")
+            .parse::<u32>()
+            .unwrap();
+        let min = max_min
+            .get(0)
+            .expect("Could not get min from the password")
+            .parse::<u32>()
+            .unwrap();
         if counter >= min && counter <= max {
-            return true
+            return true;
         };
     }
 
@@ -60,22 +72,39 @@ fn is_valid_password_2(assumed_password: &str) -> bool {
     let splitted_password_pattern: Vec<&str> = assumed_password.split(" ").collect();
 
     if let Some(provided_character) = splitted_password_pattern.get(1) {
-        let indices: Vec<&str> = splitted_password_pattern.get(0).unwrap().split("-").collect();
-        let first_index = indices.get(0).expect("Could not get first index from password").parse::<usize>().unwrap();
-        let second_index = indices.get(1).expect("Could not get first index from password").parse::<usize>().unwrap();
+        let indices: Vec<&str> = splitted_password_pattern
+            .get(0)
+            .unwrap()
+            .split("-")
+            .collect();
+        let first_index = indices
+            .get(0)
+            .expect("Could not get first index from password")
+            .parse::<usize>()
+            .unwrap();
+        let second_index = indices
+            .get(1)
+            .expect("Could not get first index from password")
+            .parse::<usize>()
+            .unwrap();
 
         let pw_as_char: Vec<char> = splitted_password_pattern.get(2).unwrap().chars().collect();
 
-        let matching_character = provided_character.chars().next().expect("Could not fetch characters from character string");
-        
-        if (pw_as_char.get(first_index - 1).unwrap() == &matching_character) != (pw_as_char.get(second_index - 1).unwrap() == &matching_character) {
+        let matching_character = provided_character
+            .chars()
+            .next()
+            .expect("Could not fetch characters from character string");
+
+        if (pw_as_char.get(first_index - 1).unwrap() == &matching_character)
+            != (pw_as_char.get(second_index - 1).unwrap() == &matching_character)
+        {
             return true;
         }
-    } 
+    }
 
     false
 }
- 
+
 #[test]
 fn test_is_valid_password() {
     assert!(is_valid_password("3-11 w: wwmwwwwwwwww"));
